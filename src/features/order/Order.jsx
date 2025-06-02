@@ -1,6 +1,7 @@
 // Test ID: IIDSAT
 
-import { calcMinutesLeft, formatCurrency, formatDate } from '../../utils/helpers';
+import { getOrder } from '../../services/apiRestaurant';
+import { calcMinutesLeft, formatCurrency, formatDate } from '../../utilities/helpers';
 
 const order = {
   id: 'ABCDEF',
@@ -41,7 +42,7 @@ function Order() {
   // Everyone can search for all orders, so for privacy reasons we're gonna gonna exclude names or address, these are only for the restaurant staff
   const { id, status, priority, priorityPrice, orderPrice, estimatedDelivery, cart } = order;
   const deliveryIn = calcMinutesLeft(estimatedDelivery);
-
+  console.log(id, cart);
   return (
     <div>
       <div>
@@ -69,6 +70,11 @@ function Order() {
       </div>
     </div>
   );
+}
+
+export async function loader({ params }) {
+  const order = await getOrder(params.orderId);
+  return order;
 }
 
 export default Order;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -31,6 +31,7 @@ const fakeCart = [
 function CreateOrder() {
   // const [withPriority, setWithPriority] = useState(false);
   const cart = fakeCart;
+  console.log(cart, isValidPhone);
 
   return (
     <div>
