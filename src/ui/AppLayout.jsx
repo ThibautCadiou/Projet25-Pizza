@@ -10,12 +10,12 @@ function AppLayout() {
   const isLoading = navigation.state === "loading";
 
   return (
-    <div className="grid h-[500px] h-screen grid-rows-[auto_1fr_auto] bg-stone-200">
+    <div className="grid h-screen w-full grid-rows-[auto_1fr_auto] bg-stone-200">
       {isLoading && <Loader />}
 
       <Header></Header>
 
-      <main className="mx-auto max-w-3xl overflow-auto bg-amber-600">
+      <main className="mx-auto w-full overflow-auto bg-gray-200 sm:max-w-3xl">
         {/* Pour mettre les nested routes dans le composant */}
         <Outlet />
       </main>
