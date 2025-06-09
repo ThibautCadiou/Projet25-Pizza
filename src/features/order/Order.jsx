@@ -67,6 +67,8 @@ function Order() {
   );
 }
 
+/* eslint-disable react-refresh/only-export-components */
+
 export async function loader({ params }) {
   const order = await getOrder(params.orderId);
   return order;
