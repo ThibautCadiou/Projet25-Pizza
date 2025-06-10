@@ -1,11 +1,13 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-refresh/only-export-components */
 // import { useState } from 'react';
 
 import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
 import Button from "../../ui/Button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getCart } from "../cart/cartSlice";
+import { fetchAddress } from "../user/userSlice";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -15,10 +17,18 @@ const isValidPhone = (str) =>
 
 function CreateOrder() {
   const cart = useSelector(getCart);
-  const username = useSelector((state) => state.user.username);
+  const {
+    username,
+    status: adressStatus,
+    position,
+    adress,
+  } = useSelector((state) => state.user);
+
+  const isLoadingAdress = adressStatus === "loading";
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
   const formErrors = useActionData();
+  const dispatch = useDispatch();
 
   return (
     <div className="px-4 py-3">
@@ -44,11 +54,29 @@ function CreateOrder() {
           {formErrors?.phone && <p>{formErrors.phone}</p>}
         </div>
 
-        <div className="mb-5 flex flex-col items-center gap-2 sm:flex-row">
+        <div className="relative mb-5 flex flex-col items-center gap-2 sm:flex-row">
           <label>Address</label>
-          <input type="text" name="address" required className="input grow" />
+          <input
+            type="text"
+            disabled={isLoadingAdress}
+            name="address"
+            defaultValue={adress}
+            required
+            className="input grow"
+          />
+          <span className="absolute right-[5px] z-2">
+            <Button
+              type="small"
+              disabled={isLoadingAdress}
+              onClick={(e) => {
+                e.preventDefault();
+                dispatch(fetchAddress());
+              }}
+            >
+              Get Position
+            </Button>
+          </span>
         </div>
-
         <div className="mb-8 flex items-center gap-5">
           <input
             type="checkbox"
